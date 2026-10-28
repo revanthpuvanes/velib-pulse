@@ -194,8 +194,13 @@ export default function Home() {
 
   useEffect(() => {
     let cancelled = false;
+    let loading = false;
+    let lastReleaseId: string | null = null;
 
     async function load() {
+      if (loading || cancelled) return;
+      loading = true;
+
       try {
         const timestamp = Date.now();
 
@@ -221,6 +226,11 @@ export default function Home() {
             insights: string;
           };
         } = await manifestResponse.json();
+
+        // Skip downloading JSON when the release has not changed.
+        if (manifest.release_id === lastReleaseId) {
+          return;
+        }
 
         const paths = [
           manifest.files.stations,
@@ -264,11 +274,14 @@ export default function Home() {
           setHealthData(health);
           setInsightData(insights);
           setError("");
+          lastReleaseId = manifest.release_id;
         }
       } catch (err) {
         if (!cancelled) {
           setError(err instanceof Error ? err.message : "Failed to load data");
         }
+      } finally {
+        loading = false;
       }
     }
 

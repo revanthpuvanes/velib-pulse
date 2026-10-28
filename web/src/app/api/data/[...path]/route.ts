@@ -15,6 +15,51 @@ function getStorage() {
   });
 }
 
+// Cache only the manifest, never the release JSON files.
+// This cache is per serverless instance and expires after 30 seconds.
+const MANIFEST_TTL_MS = 30_000;
+
+let manifestCache: {
+  body: string;
+  expiresAt: number;
+} | null = null;
+
+let manifestRequest: Promise<string> | null = null;
+
+async function getManifest(): Promise<string> {
+  const now = Date.now();
+
+  if (manifestCache && now < manifestCache.expiresAt) {
+    return manifestCache.body;
+  }
+
+  // Share one GCS request between concurrent requests on this instance.
+  if (!manifestRequest) {
+    manifestRequest = getStorage()
+      .bucket(BUCKET)
+      .file("dashboard/manifest.json")
+      .download()
+      .then(([contents]) => {
+        const body = contents.toString("utf-8");
+
+        // Validate before caching.
+        JSON.parse(body);
+
+        manifestCache = {
+          body,
+          expiresAt: Date.now() + MANIFEST_TTL_MS,
+        };
+
+        return body;
+      })
+      .finally(() => {
+        manifestRequest = null;
+      });
+  }
+
+  return manifestRequest;
+}
+
 const ALLOWED_FILES = new Set([
   "stations.json",
   "hourly.json",
@@ -47,9 +92,17 @@ export async function GET(
   }
 
   try {
-    const [contents] = await getStorage().bucket(BUCKET).file(objectPath).download();
+    const body =
+      objectPath === "dashboard/manifest.json"
+        ? await getManifest()
+        : (
+            await getStorage()
+              .bucket(BUCKET)
+              .file(objectPath)
+              .download()
+          )[0].toString("utf-8");
 
-    return new NextResponse(contents.toString("utf-8"), {
+    return new NextResponse(body, {
       status: 200,
       headers: {
         "Content-Type": "application/json; charset=utf-8",

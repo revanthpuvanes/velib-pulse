@@ -1,0 +1,41 @@
+version: 2
+
+models:
+  - name: stg_station_observations
+    description: >
+      Historical Vélib' station availability observations
+      collected from completed five-minute polling snapshots.
+
+    columns:
+      - name: event_id
+        description: Stable identifier composed of poll ID and station code.
+        data_tests:
+          - unique
+          - not_null
+
+      - name: poll_id
+        description: Scheduled five-minute UTC polling identifier.
+        data_tests:
+          - not_null
+
+      - name: stationcode
+        description: Unique station identifier within each poll.
+        data_tests:
+          - not_null
+
+      - name: collected_at
+        description: UTC timestamp when the collector fetched the observation.
+        data_tests:
+          - not_null
+
+      - name: station_name
+        data_tests:
+          - not_null
+
+      - name: bikes_available
+        data_tests:
+          - not_null
+
+      - name: docks_available
+        data_tests:
+          - not_null

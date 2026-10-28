@@ -1,0 +1,91 @@
+version: 2
+
+models:
+  - name: mart_station_latest
+    description: >
+      Latest available observation per Vélib' station
+      at the time of the most recent dbt model build.
+
+    columns:
+      - name: stationcode
+        data_tests:
+          - unique
+          - not_null
+
+      - name: station_name
+        data_tests:
+          - not_null
+
+      - name: last_observed_at
+        data_tests:
+          - not_null
+
+      - name: bikes_available
+        data_tests:
+          - not_null
+
+      - name: docks_available
+        data_tests:
+          - not_null
+
+      - name: latitude
+        description: Station latitude in decimal degrees.
+        data_tests:
+          - not_null
+
+      - name: longitude
+        description: Station longitude in decimal degrees.
+        data_tests:
+          - not_null
+
+  - name: mart_hourly_availability
+    description: >
+      Hourly aggregates of observed Vélib' station availability.
+      Percentages describe sampled observations, not continuous time.
+
+    columns:
+      - name: stationcode
+        data_tests:
+          - not_null
+
+      - name: hour_utc
+        data_tests:
+          - not_null
+
+      - name: observation_count
+        data_tests:
+          - not_null
+
+      - name: avg_bikes_available
+        data_tests:
+          - not_null
+
+      - name: avg_docks_available
+        data_tests:
+          - not_null
+
+
+  - name: mart_station_history
+    columns:
+      - name: stationcode
+        data_tests: [not_null]
+      - name: hour_utc
+        data_tests: [not_null]
+      - name: observation_count
+        data_tests: [not_null]
+  - name: mart_station_empty_frequency
+    columns:
+      - name: stationcode
+        data_tests: [unique, not_null]
+      - name: observation_count
+        data_tests: [not_null]
+      - name: empty_pct
+        data_tests: [not_null]
+  - name: mart_weekday_hour_pattern
+    columns:
+      - name: weekday_iso
+        data_tests: [not_null]
+      - name: hour_local
+        data_tests: [not_null]
+      - name: observation_count
+        data_tests: [not_null]

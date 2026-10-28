@@ -1,0 +1,7 @@
+velib_analytics:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: ../storage/analytics/velib_analytics.duckdb
+      threads: 2

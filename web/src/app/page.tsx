@@ -201,7 +201,7 @@ export default function Home() {
 
         // Read one manifest to select a consistent dataset release.
         const manifestResponse = await fetch(
-          `/data/manifest.json?t=${timestamp}`,
+          `/api/data/manifest.json?t=${timestamp}`,
           { cache: "no-store" },
         );
 
@@ -242,7 +242,7 @@ export default function Home() {
 
         const responses = await Promise.all(
           paths.map((path) =>
-            fetch(path, { cache: "no-store" }),
+            fetch(path.replace(/^\/data\//, "/api/data/"), { cache: "no-store" }),
           ),
         );
 

@@ -37,6 +37,40 @@
 
 ---
 
+<!-- DATA VOLUME START -->
+## 📊 Data Volume & Throughput
+
+Vélib' Pulse continuously collects station availability data from approximately **1,519 stations across Paris**, using an automated **5-minute polling interval**.
+
+| Time Window | API Polls | Station Observations |
+|---|---:|---:|
+| **1 minute (average)** | 0.2 | ~304 |
+| **5 minutes** | 1 | ~1,519 |
+| **1 hour** | 12 | ~18,228 |
+| **24 hours** | 288 | ~437,472 |
+| **30 days** | 8,640 | ~13.1 million |
+
+### ⚡ Pipeline Characteristics
+
+- **Ingestion frequency:** Every 5 minutes
+- **Analytics refresh:** Every 15 minutes
+- **Station observations per poll:** ~1,519
+- **Projected daily throughput:** ~437K observations
+- **Projected monthly throughput:** ~13.1M observations
+- **Storage:** Incremental Parquet files and DuckDB
+- **Data quality:** dbt transformations and automated tests
+- **Cloud infrastructure:** Google Compute Engine and Cloud Storage
+
+> **Measurement note:** Throughput figures are projections based on 1,519 stations and successful 5-minute polls, not measured daily or monthly production totals. An earlier verified run recorded 15,190 observations across 10 polls, with matching DuckDB/Parquet counts.
+
+<!-- DATA VOLUME END -->
+
+## 📸 Dashboard Preview
+
+![Vélib' Pulse Dashboard](docs/dashboard.png)
+
+**[🚀 OPEN LIVE DASHBOARD](https://velib-pulse-gamma.vercel.app/)**
+
 ## Overview
 
 Vélib' Pulse ingests public Paris bike-sharing station availability, processes it through a Kafka-compatible event stream, persists observations in an analytical store, and publishes validated datasets to a web dashboard.
@@ -145,9 +179,7 @@ The live dashboard brings the pipeline's outputs together in one interface:
 - **Historical insights** derived from stored observations.
 - **Pipeline health** including freshness, polling coverage, and storage consistency.
 
-> **Screenshots:** Add a screenshot of the deployed dashboard here to give visitors an immediate visual preview.
->
-> `![Vélib' Pulse dashboard](docs/dashboard.png)`
+
 
 ## Technology stack
 

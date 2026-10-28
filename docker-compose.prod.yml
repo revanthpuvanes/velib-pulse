@@ -1,0 +1,49 @@
+services:
+
+  pipeline:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: velib-pipeline:local
+
+    working_dir: /app
+
+    environment:
+      PYTHONUNBUFFERED: "1"
+      PYTHONPATH: /app
+      KAFKA_BOOTSTRAP_SERVERS: redpanda:9092
+
+    volumes:
+      - velib_storage:/app/storage
+
+    depends_on:
+      - redpanda
+
+    command: ["bash", "scripts/run_locked.sh"]
+
+    restart: "no"
+
+  analytics:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: velib-pipeline:local
+
+    working_dir: /app
+
+    environment:
+      PYTHONUNBUFFERED: "1"
+      PYTHONPATH: /app
+      VELIB_AUTOMATION_START: ${VELIB_AUTOMATION_START:-2026-10-27T21:20:00Z}
+
+    volumes:
+      - velib_storage:/app/storage
+      - velib_dashboard_data:/app/web/public/data
+
+    command: ["bash", "scripts/run_analytics.sh"]
+
+    restart: "no"
+
+volumes:
+  velib_storage:
+  velib_dashboard_data:

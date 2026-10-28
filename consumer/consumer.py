@@ -8,7 +8,7 @@ from confluent_kafka import Consumer, KafkaException, TopicPartition
 
 
 TOPIC = "velib.station_status"
-BOOTSTRAP_SERVERS = "localhost:19092"
+BOOTSTRAP_SERVERS = os.environ.get("KAFKA_BOOTSTRAP_SERVERS", "localhost:19092")
 
 DB_PATH = Path(os.environ.get("VELIB_DB_PATH", "storage/state/velib.duckdb"))
 PARQUET_PATH = Path(

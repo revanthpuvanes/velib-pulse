@@ -1,0 +1,13 @@
+services:
+  redpanda:
+    container_name: velib-redpanda-test
+    ports: !reset []
+
+  pipeline:
+    environment:
+      KAFKA_BOOTSTRAP_SERVERS: redpanda:9092
+
+  analytics:
+    environment:
+      PYTHONUNBUFFERED: "1"
+      VELIB_AUTOMATION_START: "2026-10-28T02:30:00Z"

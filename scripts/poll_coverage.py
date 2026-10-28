@@ -1,9 +1,47 @@
+import os
 from datetime import datetime, timedelta, timezone
 
 
-AUTOMATION_START = datetime(
+DEFAULT_AUTOMATION_START = datetime(
     2026, 10, 27, 21, 20, tzinfo=timezone.utc
 )
+
+
+def get_automation_start():
+    value = os.environ.get("VELIB_AUTOMATION_START")
+
+    if not value:
+        return DEFAULT_AUTOMATION_START
+
+    try:
+        parsed = datetime.fromisoformat(
+            value.replace("Z", "+00:00")
+        )
+    except ValueError as exc:
+        raise ValueError(
+            "VELIB_AUTOMATION_START must be an ISO 8601 timestamp"
+        ) from exc
+
+    if parsed.tzinfo is None or parsed.utcoffset() is None:
+        raise ValueError(
+            "VELIB_AUTOMATION_START must include a timezone"
+        )
+
+    parsed = parsed.astimezone(timezone.utc)
+
+    if (
+        parsed.second != 0
+        or parsed.microsecond != 0
+        or parsed.minute % 5 != 0
+    ):
+        raise ValueError(
+            "VELIB_AUTOMATION_START must align to a five-minute UTC boundary"
+        )
+
+    return parsed
+
+
+AUTOMATION_START = get_automation_start()
 
 
 def calculate_coverage(

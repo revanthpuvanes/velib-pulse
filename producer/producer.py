@@ -10,7 +10,7 @@ from collector.collector import calculate_checksum, validate_stations
 
 
 TOPIC = os.environ.get("VELIB_TOPIC", "velib.station_status")
-BOOTSTRAP_SERVERS = "localhost:19092"
+BOOTSTRAP_SERVERS = os.environ.get("KAFKA_BOOTSTRAP_SERVERS", "localhost:19092")
 STATE_PATH = Path(os.environ.get("VELIB_PRODUCER_STATE", "storage/state/producer.sqlite"))
 
 

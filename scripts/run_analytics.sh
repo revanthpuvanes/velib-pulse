@@ -1,9 +1,18 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-PROJECT_ROOT="$HOME/Data-Engineering-Projects/velib-live-pipeline"
+PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
 cd "$PROJECT_ROOT"
+
+# Support both local virtual environments and Docker.
+if [[ -x "$PROJECT_ROOT/.venv/bin/python" ]]; then
+    PYTHON="$PROJECT_ROOT/.venv/bin/python"
+    DBT="$PROJECT_ROOT/.venv/bin/dbt"
+else
+    PYTHON="$(command -v python)"
+    DBT="$(command -v dbt)"
+fi
 
 mkdir -p storage/state
 
@@ -24,38 +33,32 @@ echo "[1/7] Running dbt models and tests..."
 
 (
     cd analytics
-    ../.venv/bin/dbt build --profiles-dir . --project-dir .
+    "$DBT" build --profiles-dir . --project-dir .
 )
 
 echo ""
 echo "[2/7] Regenerating pipeline health..."
-
-.venv/bin/python -m scripts.export_health_with_retry
+"$PYTHON" -m scripts.export_health_with_retry
 
 echo ""
 echo "[3/7] Exporting latest station availability..."
-
-.venv/bin/python -m dashboard.export_stations
+"$PYTHON" -m dashboard.export_stations
 
 echo ""
 echo "[4/7] Exporting hourly analytics..."
-
-.venv/bin/python -m dashboard.export_hourly
+"$PYTHON" -m dashboard.export_hourly
 
 echo ""
 echo "[5/7] Exporting dashboard health..."
-
-.venv/bin/python -m dashboard.export_health
+"$PYTHON" -m dashboard.export_health
 
 echo ""
 echo "[6/7] Exporting historical insights..."
-
-.venv/bin/python -m dashboard.export_insights
+"$PYTHON" -m dashboard.export_insights
 
 echo ""
-echo "[7/7] Publishing JSON to Next.js..."
-
-.venv/bin/python -m scripts.sync_dashboard_data
+echo "[7/7] Publishing dashboard release..."
+"$PYTHON" -m scripts.sync_dashboard_data
 
 echo ""
 echo "=============================================="

@@ -4,12 +4,16 @@ import { NextRequest, NextResponse } from "next/server";
 
 const BUCKET = "velib-pulse-data-velib-pulse";
 
-const storage = new Storage({
-  projectId: "velib-pulse",
-  credentials: process.env.GCP_SERVICE_ACCOUNT_JSON
-    ? JSON.parse(process.env.GCP_SERVICE_ACCOUNT_JSON)
-    : undefined,
-});
+function getStorage() {
+  const credentialsJson = process.env.GCP_SERVICE_ACCOUNT_JSON;
+
+  return new Storage({
+    projectId: "velib-pulse",
+    credentials: credentialsJson
+      ? JSON.parse(credentialsJson)
+      : undefined,
+  });
+}
 
 const ALLOWED_FILES = new Set([
   "stations.json",
@@ -43,7 +47,7 @@ export async function GET(
   }
 
   try {
-    const [contents] = await storage.bucket(BUCKET).file(objectPath).download();
+    const [contents] = await getStorage().bucket(BUCKET).file(objectPath).download();
 
     return new NextResponse(contents.toString("utf-8"), {
       status: 200,

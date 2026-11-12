@@ -23,7 +23,11 @@
 
 ---
 <!-- END LIVE DASHBOARD -->
+## 📸 Dashboard Preview
 
+![Vélib' Pulse Dashboard](docs/dashboard.png)
+
+**[🚀 OPEN LIVE DASHBOARD](https://velib-pulse-gamma.vercel.app/)**
 
 ### Real-time bike-sharing data engineering for Paris
 
@@ -65,11 +69,6 @@ Vélib' Pulse continuously collects station availability data from approximately
 
 <!-- DATA VOLUME END -->
 
-## 📸 Dashboard Preview
-
-![Vélib' Pulse Dashboard](docs/dashboard.png)
-
-**[🚀 OPEN LIVE DASHBOARD](https://velib-pulse-gamma.vercel.app/)**
 
 ## Overview
 

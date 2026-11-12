@@ -335,7 +335,7 @@ export default function Home() {
   const isFresh =
     freshnessSeconds !== null &&
     freshnessSeconds >= 0 &&
-    freshnessSeconds < 600;
+    freshnessSeconds < 5400;
 
   const filteredStations = useMemo(() => {
     const term = query.toLowerCase().trim();
@@ -418,7 +418,7 @@ export default function Home() {
                   : "border-amber-500/30 bg-amber-500/10 text-amber-400"
               }`}
             >
-              ● {isFresh ? "DATA FRESH" : "DATA STALE"}
+              ● {isFresh ? "DATA LIVE" : "DATA STALE"}
             </div>
 
             <span className="flex items-center gap-2 text-xs text-slate-500">

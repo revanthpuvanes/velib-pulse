@@ -379,10 +379,7 @@ export default function Home() {
     <main className="min-h-screen bg-[#080d16] text-slate-200 selection:bg-cyan-400/30">
       <div className="pointer-events-none fixed inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(6,182,212,0.09),transparent_50%)]" />
       <aside className="fixed inset-y-0 left-0 z-30 hidden w-60 flex-col border-r border-white/10 bg-[#0c1422]/95 px-4 py-7 backdrop-blur-xl lg:flex">
-        <a href="#overview" className="mb-12 flex items-center gap-3 px-2">
-          <div className="rounded-2xl bg-gradient-to-br from-cyan-300 to-emerald-400 p-2.5 text-slate-950"><Bike size={24}/></div>
-          <div><p className="font-bold tracking-tight text-white">Vélib&apos; Pulse</p><p className="text-[10px] uppercase tracking-[0.2em] text-cyan-300">Intelligence</p></div>
-        </a>
+        <div className="h-4" />
         <p className="mb-3 px-3 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-600">Workspace</p>
         {[
           {href:"#overview",label:"Overview",icon:LayoutDashboard},
@@ -391,7 +388,7 @@ export default function Home() {
           {href:"#pipeline",label:"Pipeline health",icon:ShieldCheck},
           {href:"#explorer",label:"Station explorer",icon:Search},
         ].map(item => <a key={item.href} href={item.href} className="group mb-1 flex items-center gap-3 rounded-xl px-3 py-3 text-sm text-slate-400 transition hover:bg-cyan-400/10 hover:text-cyan-200"><item.icon size={17}/>{item.label}<ChevronRight size={13} className="ml-auto opacity-0 transition group-hover:opacity-100"/></a>)}
-        <div className="mt-auto rounded-2xl border border-cyan-400/10 bg-cyan-400/[0.04] p-4 text-xs leading-6 text-slate-400"><span className="font-semibold text-cyan-300">DATA ENGINEERING</span><br/>5-minute snapshots<br/>Historical Parquet + dbt<br/>Measured pipeline health</div>
+        <div className="mt-auto rounded-2xl border border-cyan-400/10 bg-cyan-400/[0.04] p-4 text-xs leading-6 text-slate-400"><span className="font-semibold text-cyan-300">DATA ENGINEERING</span><br/>Hourly snapshots<br/>Historical Parquet + dbt<br/>Measured pipeline health</div>
       </aside>
       <div className="relative mx-auto max-w-7xl px-5 py-8 md:px-10 lg:ml-60 lg:max-w-none lg:px-10 xl:px-14">
         <header id="overview" className="mb-10 flex scroll-mt-8 flex-wrap items-center justify-between gap-5">

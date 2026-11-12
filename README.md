@@ -1,41 +1,17 @@
 <div align="center">
 
 # 🚲 Vélib' Pulse
-
-
-<!-- LIVE DASHBOARD -->
-<p align="center">
-  <a href="https://velib-pulse-gamma.vercel.app/" target="_blank">
-    <img src="https://img.shields.io/badge/🚀_EXPLORE_LIVE_DASHBOARD-CLICK_HERE-00C853?style=for-the-badge&logo=vercel&logoColor=white"
-         alt="Explore Live Dashboard" />
-  </a>
-</p>
-
-<p align="center">
-  <strong>🚴 LIVE IN PRODUCTION — Explore real Paris bike-sharing data</strong>
-</p>
-
-<p align="center">
-  <a href="https://velib-pulse-gamma.vercel.app/">
-    <strong>🌐 https://velib-pulse-gamma.vercel.app/</strong>
-  </a>
-</p>
-
----
-<!-- END LIVE DASHBOARD -->
-## 📸 Dashboard Preview
-
-![Vélib' Pulse Dashboard](docs/dashboard.png)
-
-**[🚀 OPEN LIVE DASHBOARD](https://velib-pulse-gamma.vercel.app/)**
-
 ### Real-time bike-sharing data engineering for Paris
 
-**An automated, cloud-deployed pipeline that turns Vélib' station updates into a live analytics dashboard.**
+An automated, cloud-deployed pipeline that turns Vélib' station updates into a live analytics dashboard.
 
-**Python · Redpanda (Kafka API) · DuckDB · Parquet · dbt · Google Cloud · Next.js**
+***Python · Redpanda (Kafka API) · DuckDB · Parquet · dbt · Google Cloud · Next.js***
 
 [Architecture](#architecture) · [Engineering highlights](#engineering-highlights) · [Dashboard](#dashboard) · [Run locally](#run-locally) · [Operations](#operations)
+
+<img width="1904" height="988" alt="image" src="https://github.com/user-attachments/assets/4adef9e1-c193-4e09-bcdb-66c9ea389dbf" />
+
+**[🚀 OPEN LIVE DASHBOARD](https://velib-pulse-gamma.vercel.app/)**
 
 </div>
 
